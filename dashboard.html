@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard - SMART DONATION</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <style>
+    /* Section styling for main content */
+    section {
+      background-image: url('{{ url_for('static', filename='images/your-image.jpg') }}');
+      background-size: cover;
+      background-position: center;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); 
+    }
+
+    section .container {
+      text-align: center;
+    }
+
+    section h1 {
+      font-size: 4rem;
+      font-weight: bold;
+    }
+
+    section p {
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+    }
+
+    section .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    section .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #004085;
+    }
+
+    /* Dashboard Layout */
+    .dashboard {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+
+    /* Status Box Styling */
+    .status-box {
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    .status-box h2 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: #007bff;
+    }
+
+    .status-box ul {
+      list-style: none;
+    }
+
+    .status-box ul li {
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .status-box ul li:last-child {
+      border-bottom: none;
+    }
+
+    .status-box p {
+      margin: 5px 0;
+    }
+
+    /* Navbar styles */
+    .navbar {
+      margin-bottom: 0;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+    }
+
+    .navbar-nav .nav-link {
+      font-size: 1.1rem;
+      color: white;
+    }
+
+    .navbar-nav .nav-link:hover {
+      background-color: #0056b3;
+      color: white;
+    }
+
+    /* Footer Styling */
+    footer {
+      background-color: #343a40;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    footer small {
+      font-size: 0.875rem;
+    }
+
+    /* Responsive Design for smaller screens */
+    @media (max-width: 767px) {
+      section h1 {
+        font-size: 2.5rem;
+      }
+      section p {
+        font-size: 1.2rem;
+      }
+      .dashboard {
+        width: 95%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">SMART DONATION</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li> <!-- ✅ Added Home -->
+          <li class="nav-item"><a class="nav-link" href="user/login.html">User Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="/ngo/dashboard.html">NGO Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="admin/login.html">Admin Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="donate-money.html">Donate Money</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Section -->
+  <section>
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold">Welcome, {{ user.username }}!</h1>
+      <p class="lead">Manage your donations and help those in need.</p>
+      <a href="{{ url_for('make_donation') }}" class="btn btn-primary btn-lg mt-3">Make a Donation</a>
+    </div>
+  </section>
+
+  <!-- Dashboard Section -->
+  <div class="dashboard">
+    <h1>Your Dashboard</h1>
+
+    <div class="status-box">
+      <h2>Your Donation History</h2>
+      <ul>
+        {% for donation in donations %}
+          <li>
+            <p>Donation ID: {{ donation.id }}</p>
+            <p>Status: {{ donation.status }}</p>
+            <p>Amount: ₹{{ donation.amount }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="status-box">
+      <h2>Your Received Donations</h2>
+      <ul>
+        {% for received in received_donations %}
+          <li>
+            <p>Donation ID: {{ received.id }}</p>
+            <p>Status: {{ received.status }}</p>
+            <p>Product: {{ received.product_name }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <small>© 2025 Smart Donation | Built with ❤️ for a better world</small>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
